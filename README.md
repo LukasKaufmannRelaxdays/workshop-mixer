@@ -62,7 +62,7 @@ The chosen function to minimize is:
 because the variance is guaranteed to be asymptotically smaller than that. The constant factor of 100 guarantees that any decrease in zero count 
 can basically cost as much variance as needed.
 
-##Related work
+## Related work
 We suspect, that Dagstuhls Happy Diner Problem (see https://github.com/fpvandoorn/Dagstuhl-tables) can be viewed as a special case of this problem,
 but we didn't prove this yet. We also suspect this problem to be NP-hard, but would be happy if someone found a polynomial time exact algorithm for this.
 Otherwise a proof for the NP-hardness would be nice.
