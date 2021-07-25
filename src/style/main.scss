@@ -1,0 +1,23 @@
+@import "bootstrap/scss/bootstrap";
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  justify-content: center;
+  gap: 3rem;
+}
+
+.v-assignments {
+  &__prev, &__next {
+    cursor: pointer;
+    filter: invert(1) grayscale(100);
+    opacity: 0.5;
+
+    &:hover { opacity: 1.0; }
+  }
+
+  &__prev { @extend .carousel-control-prev-icon; }
+  &__next { @extend .carousel-control-next-icon; }
+
+  &__title { width: 320px; }
+}
