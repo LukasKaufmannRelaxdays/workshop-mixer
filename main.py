@@ -1,6 +1,5 @@
-from random_improver import random_improver
-from random_tree_searcher import random_tree_searcher
-
+import random_improver
+import random_tree_searcher
 
 def main():
     """
@@ -19,13 +18,13 @@ def main():
         "___|____|___"  # 2 groups of 3 and one group of 4 people
     ]
     for i in range(len(rounds_template)):
-        if len(participants) != rounds_template[i].count("_"):
+        if len(participants) != sum(c == "_" for c in rounds_template[i]):
             raise Exception(f"In round {i} the number of participants doesn't "
                             f"match the number of _ in the round template")
-    random_improver(participants, rounds_template)
+    random_improver.random_improver(participants, rounds_template)
     # you can use the following function instead
     # (takes more time and sometimes produces better results)
-    # random_tree_searcher(participants, rounds_template)
+    # random_tree_searcher.random_tree_searcher(participants, rounds_template)
 
 
 if __name__ == '__main__':

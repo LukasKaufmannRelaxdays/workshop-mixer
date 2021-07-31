@@ -1,15 +1,11 @@
 import random
-
-import numpy
-
+import ourcopy
 
 def rounds_hash(rounds, participants):
-    rounds_as_tuple = tuple(
-        tuple(tuple(participants.index(participant) for participant in group) for group in single_round["plan"]) for
-        single_round in rounds)
-    return hash(
-        rounds_as_tuple
-    )
+    rounds_as_tuple = "".join(
+        chr(participants.index(participant)) for
+        single_round in rounds for group in single_round["plan"] for participant in group)
+    return rounds_as_tuple
 
 
 def meet(meeting_matrix, participants, first_participant, second_participant):
@@ -20,11 +16,11 @@ def meet(meeting_matrix, participants, first_participant, second_participant):
 
 
 def score_meeting_matrix(meeting_matrix, optimal_meeting_count):
-    maximum = numpy.max(meeting_matrix)
+    maximum = max(max(i) for i in meeting_matrix)
     for i in range(len(meeting_matrix)):
         meeting_matrix[i][i] = maximum + 1
-    zero_count = (meeting_matrix == 0).sum()
-    minimum = numpy.min(meeting_matrix)
+    zero_count = sum(sum(j == 0 for j in i) for i in meeting_matrix)
+    minimum = min(min(i) for i in meeting_matrix)
     for i in range(len(meeting_matrix)):
         meeting_matrix[i][i] = 0
     ret = 0
@@ -35,7 +31,7 @@ def score_meeting_matrix(meeting_matrix, optimal_meeting_count):
 
 
 def calculate_meeting_matrix(participants, rounds):
-    meeting_matrix = numpy.zeros((len(participants), len(participants)), dtype=int)
+    meeting_matrix = [[0 for i in range(len(participants))] for j in range(len(participants))]
     for i in range(len(rounds)):
         for group_index in range(len(rounds[i]["plan"])):
             group_members = rounds[i]["plan"][group_index]
@@ -49,7 +45,7 @@ def calculate_meeting_matrix(participants, rounds):
 def round_parse(round_template, participants):
     return {
         "plan": [list(group) for group in round_template.split("|")],
-        "remain": participants.copy()
+        "remain": ourcopy.deepcopy(participants)
     }
 
 

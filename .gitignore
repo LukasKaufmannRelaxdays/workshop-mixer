@@ -3,3 +3,4 @@ venv
 .parcel-cache
 dist
 node_modules
+__target__

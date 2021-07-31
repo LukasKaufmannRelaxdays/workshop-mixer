@@ -1,26 +1,25 @@
-import numpy
-import copy
-
-from util import score_meeting_matrix, calculate_meeting_matrix, round_parse, random_solution
+import ourcopy
+import util
+import ourcopy as copy
 
 
 def random_improver(participants, rounds_template):
-    rounds = [round_parse(round_template, participants) for round_template in rounds_template]
-    meeting_matrix, rounds = random_solution(participants, rounds)
-    optimal_meeting_count = sum(sum(meeting_matrix)) / (len(participants) * (len(participants) - 1))
-    best_score = current_score = score_meeting_matrix(meeting_matrix, optimal_meeting_count)
-    best_solution = rounds.copy()
+    rounds = [util.round_parse(round_template, participants) for round_template in rounds_template]
+    meeting_matrix, rounds = util.random_solution(participants, rounds)
+    optimal_meeting_count = sum(sum(i) for i in meeting_matrix) / (len(participants) * (len(participants) - 1))
+    best_score = current_score = util.score_meeting_matrix(meeting_matrix, optimal_meeting_count)
+    best_solution = ourcopy.deepcopy(rounds)
     repeated_score_number = 0
     for i in range(10000):
-        max_meet_count = numpy.max(meeting_matrix)
+        max_meet_count = max(max(i) for i in meeting_matrix)
         for first_participant_index in range(len(participants)):
             first_participant_meeting_counts = meeting_matrix[first_participant_index]
             if max_meet_count not in first_participant_meeting_counts:
                 continue
-            max_meet_participant_index = numpy.argmax(first_participant_meeting_counts)
+            max_meet_participant_index = max(enumerate(first_participant_meeting_counts), key=lambda x: x[1])[0]
             first_participant_meeting_counts[first_participant_index] = first_participant_meeting_counts[
                                                                             max_meet_participant_index] + 1
-            min_meet_participant_index = numpy.argmin(first_participant_meeting_counts)
+            min_meet_participant_index = min(enumerate(first_participant_meeting_counts), key=lambda x: x[1])[0]
             first_participant_meeting_counts[first_participant_index] = 0
             if first_participant_meeting_counts[max_meet_participant_index] - first_participant_meeting_counts[
                 min_meet_participant_index] >= 2:
@@ -34,8 +33,8 @@ def random_improver(participants, rounds_template):
                     if improve:
                         old_plan = rounds[round_index]["plan"]
                         rounds[round_index]["plan"] = plan
-                        new_meeting_matrix = calculate_meeting_matrix(participants, rounds)
-                        new_score = score_meeting_matrix(new_meeting_matrix, optimal_meeting_count)
+                        new_meeting_matrix = util.calculate_meeting_matrix(participants, rounds)
+                        new_score = util.score_meeting_matrix(new_meeting_matrix, optimal_meeting_count)
                         if new_score < current_score:
                             current_score = new_score
                             meeting_matrix = new_meeting_matrix
@@ -52,15 +51,15 @@ def random_improver(participants, rounds_template):
                         break
                 if not improvable_round:
                     # local maximum was reached -> new random
-                    rounds = [round_parse(round_template, participants) for round_template in rounds_template]
-                    meeting_matrix, rounds = random_solution(participants, rounds)
-                    meeting_matrix = calculate_meeting_matrix(participants, rounds)
-                    current_score = score_meeting_matrix(meeting_matrix, optimal_meeting_count)
+                    rounds = [util.round_parse(round_template, participants) for round_template in rounds_template]
+                    meeting_matrix, rounds = util.random_solution(participants, rounds)
+                    meeting_matrix = util.calculate_meeting_matrix(participants, rounds)
+                    current_score = util.score_meeting_matrix(meeting_matrix, optimal_meeting_count)
                     repeated_score_number = 0
                 best_score, best_solution = update_best(best_score, best_solution, current_score, rounds)
             break
     print(f"The optimal meeting count between each participant would be {optimal_meeting_count}")
-    print(calculate_meeting_matrix(participants, best_solution))
+    print(util.calculate_meeting_matrix(participants, best_solution))
     print(*[str(plan["plan"]) + "\n" for plan in best_solution])
 
 
