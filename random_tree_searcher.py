@@ -33,9 +33,11 @@ def random_tree_searcher(participants, rounds_template):
         if not stack_grew:
             dfs_stack = dfs_stack[:-1]
 
-    print(f"The optimal meeting count between each participant would be {optimal_meeting_count}")
-    print(util.calculate_meeting_matrix(participants, best_solution))
-    print(*[str(plan["plan"]) + "\n" for plan in best_solution])
+    return {
+        "optimalMeetingCount": optimal_meeting_count,
+        "meetingMatrix": util.calculate_meeting_matrix(participants, best_solution),
+        "plan": [plan["plan"] for plan in best_solution]
+    }
 
 
 def calculate_cutoff(percentage):

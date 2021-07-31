@@ -58,9 +58,11 @@ def random_improver(participants, rounds_template):
                     repeated_score_number = 0
                 best_score, best_solution = update_best(best_score, best_solution, current_score, rounds)
             break
-    print(f"The optimal meeting count between each participant would be {optimal_meeting_count}")
-    print(util.calculate_meeting_matrix(participants, best_solution))
-    print(*[str(plan["plan"]) + "\n" for plan in best_solution])
+    return {
+        "optimalMeetingCount": optimal_meeting_count,
+        "meetingMatrix": util.calculate_meeting_matrix(participants, best_solution),
+        "plan": [plan["plan"] for plan in best_solution]
+    }
 
 
 def update_best(best_score, best_solution, current_score, rounds):
