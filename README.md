@@ -67,6 +67,21 @@ We suspect, that Dagstuhls Happy Diner Problem (see https://github.com/fpvandoor
 but we didn't prove this yet. We also suspect this problem to be NP-hard, but would be happy if someone found a polynomial time exact algorithm for this.
 Otherwise a proof for the NP-hardness would be nice.
 
+## Development Guide
+
+### Python
+As the algorithms were initially written in python we used transcrypt (see https://www.transcrypt.org/) to convert it to js.
+When you initially download the repository you should follow these steps:
+
+1. Make sure you have python installed
+2. (optional but highly recommended) Create a virtualenv for the project and enter it `python3 -m venv venv && source venv/bin/activate`
+3. Install the python dependencies in your environment `pip3 install -r requirements.txt`
+4. Transpile the pythonfiles into Javascript `python -m transcrypt -b -m -n main.py`
+5. Host a webserver `python -m http.server`. Navigate your browser to http://0.0.0.0:8000/main.html
+6. When you click on any of the buttons a solution of a hard coded problem in the main.html should be printed on the browser console
+
+Whenever you change the python code you should repeat step 4.
+
 ## User Interface
 
 ### Requirements
