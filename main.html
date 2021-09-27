@@ -1,10 +1,25 @@
 <script type="module">import * as mixer from './__target__/main.js'; window.mixer = mixer;</script>
-<h2>Hello demo</h2>
-
-<p>
-<div id = "greet">...</div>
-<button onclick="console.log(mixer.improver(['James', 'Robert', 'John', 'Michael', 'William', 'David', 'Richard', 'Joseph', 'Thomas', 'Charles'],['____|____|__', '____|____|__', '____|____|__', '___|____|___']))">improver</button>
-
-<p>
-<div id = "explain">...</div>
-<button onclick="console.log(mixer.tree(['James', 'Robert', 'John', 'Michael', 'William', 'David', 'Richard', 'Joseph', 'Thomas', 'Charles'],['____|____|__', '____|____|__', '____|____|__', '___|____|___']))">treesearch</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    textarea {
+        width: 100%;
+    }
+    #templates {
+        height: 30%;
+    }
+    pre {
+        width: 50%;
+    }
+</style>
+<h2>Workshop Mixer</h2>
+<textarea id="participants">James,Robert,John,Michael,William,David,Richard,Joseph,Thomas,Charles
+</textarea>
+<br>
+<textarea id="templates">____|____|__
+____|____|__
+____|____|__
+___|____|___
+</textarea>
+<button onclick="$('#result').text(JSON.stringify(mixer.improver($('#participants')[0].value.split(','),$('#templates')[0].value.strip().split('\n')), null, 4))">improver</button>
+<button onclick="$('#result').text(JSON.stringify(mixer.tree($('#participants')[0].value.split(','),$('#templates')[0].value.strip().split('\n')), null, 4))">treesearch</button>
+<pre id = "result">...</pre>
