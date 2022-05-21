@@ -30,6 +30,15 @@ def score_meeting_matrix(meeting_matrix, optimal_meeting_count):
     return (maximum - minimum) * (ret + zero_count * maximum * maximum * 100)
 
 
+def score_1on1(meeting_matrix, optimal_meeting_count):
+    ret = 0
+    for i in range(len(meeting_matrix)):
+        row = meeting_matrix[i]
+        for j in range(i):
+            ret += (row[j] - optimal_meeting_count) ** 2
+    return ret
+
+
 def calculate_meeting_matrix(participants, rounds):
     meeting_matrix = [[0 for i in range(len(participants))] for j in range(len(participants))]
     for i in range(len(rounds)):
