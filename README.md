@@ -82,7 +82,9 @@ When you initially download the repository you should follow these steps:
 
 Whenever you change the python code you should repeat step 4.
 
-## User Interface
+## Deployment
+
+This project is deployed as a single html file and this is achieved with parcel.
 
 ### Requirements
 
@@ -116,16 +118,15 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
     $ npm install npm -g
 
-### Install
+### Install Dependencies
 
 ```
 npm i
 ```
 
-### Running the project
-
-    $ npm start
-
-### Simple build for production
-
-    $ npm build
+### Building the single html file
+Run `npm run-script build` from the python venv to transpile the python code and generate a minified index.html file.
+If the transpiled code behaves weirdly but you know your python code is working, that is because there are quite a lot of python features which are difficult to transpile. 
+`transpyle` doesn't support everything.
+When in this situation it is best to debug using the python webserver, because you can set breakpoints in the browser.
+The minified version is difficult to debug.
